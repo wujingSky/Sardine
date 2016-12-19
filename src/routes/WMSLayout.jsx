@@ -35,9 +35,6 @@ class WMSLayout extends React.Component {
             <div className={styles.content}>
                 { this.props.children }
             </div>
-          <div className={styles.footer}>
-                版权所有 © 2016 浙江联华WMS项目组
-          </div>
         </div>
       </div>
     );

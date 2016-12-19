@@ -24,10 +24,13 @@ function Create({ location, dispatch, users }) {
     },
   };
 
+  const CreateFormGen = () =>
+    <CreateForm {...createFormProps} />;
+
   return (
        <div>
-        <CreateForm {...createFormProps} />
-      </div>
+        <CreateFormGen />
+        </div>
   );
 }
 

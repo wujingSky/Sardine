@@ -1,19 +1,60 @@
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import React ,{PropTypes} from 'react';
+import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button } from 'antd';
+import { routerRedux } from 'dva/router';
+import { Link,withRouter } from 'react-router';
+
+import { connect } from 'dva';
+
 const FormItem = Form.Item;
 
-const NormalLoginForm = Form.create()(React.createClass({
+import styles from './Login.less';
+import auth from './LoginAuth';
+
+class Login extends React.Component {
+
+ constructor(props) {
+    super(props);
+    this.state = {
+      error: false,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+//    this.login = this.login.bind(this);
+  }
+
+/*  login(username, password, cb) {
+    this.props.dispatch({
+          type: 'users/login',
+          payload: {
+            username,
+            password,
+          },
+      });
+  }
+
+  componentWillMount() {
+    auth.login = this.login
+  }
+*/
   handleSubmit(e) {
     e.preventDefault();
+
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        auth.login(values.userName, values.password, (loggedIn) => {
+        if (!loggedIn)
+          return this.setState({ error: true });
+
+        this.props.router.replace('/demo');
+      })
       }
     });
-  },
+  }
+
   render() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
+  const { getFieldDecorator } = this.props.form;
+  return (
+      <div className={styles.login}>
+      <Form onSubmit={this.handleSubmit} className={styles.loginForm}>
         <FormItem>
           {getFieldDecorator('userName', {
             rules: [{ required: true, message: 'Please input your username!' }],
@@ -29,19 +70,19 @@ const NormalLoginForm = Form.create()(React.createClass({
           )}
         </FormItem>
         <FormItem>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(
-            <Checkbox>Remember me</Checkbox>
-          )}
-          <a className="login-form-forgot">Forgot password</a>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+            <Link to="/register">注册</Link> <a className={styles.loginFormForgot}>忘记密码</a> 
+          <Button type="primary" htmlType="submit" className={styles.loginFormButton}>
             Log in
           </Button>
-          Or <a>register now!</a>
+          {this.state.error && (
+            <p>密码错误</p>
+          )}
         </FormItem>
       </Form>
+      </div>
     );
-  },
-}));
+  }
+}  
+
+
+export default withRouter(connect()(Form.create()(Login)));

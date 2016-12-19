@@ -47,6 +47,14 @@ function Search({ location, dispatch, users }) {
         query: { ...fieldsValue, page: 1 },
       }));
     },
+    onAdd() {
+      dispatch({
+        type: 'users/showModal',
+        payload: {
+          modalType: 'create',
+        },
+      });
+    },
   };
 
   return (

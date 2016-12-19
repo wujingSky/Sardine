@@ -1,4 +1,4 @@
-import { create, remove, update, query } from '../services/demo';
+import { create, remove, update, query,login } from '../services/demo';
 import { parse } from 'qs';
 
 export default {
@@ -82,6 +82,14 @@ export default {
         });
       }
     },
+
+    *login({ payload }, { call, put }) {
+      console.log('effects……');
+      yield call(login, parse(payload));
+      console.log('check……');
+    },
+
+
     *update({ payload }, { select, call, put }) {
       yield put({ type: 'hideModal' });
       yield put({ type: 'showLoading' });
@@ -101,6 +109,7 @@ export default {
     showLoading(state) {
       return { ...state, loading: true };
     },
+
     createSuccess(state, action) {
       return { ...state, ...action.payload, loading: false };
     },

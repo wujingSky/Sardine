@@ -8,3 +8,11 @@ require('fs').readdirSync(require('path').join(__dirname + '/mock'))
   });
 
 module.exports = mock;
+
+/*module.exports = {
+	mock,
+  //  'GET /api/*': 'http://192.168.1.21:8080/sardine-wms-web/',
+  //  'GET /authen/*': 'http://192.168.1.21:8080/sardine-wms-web/',
+
+};*/
+

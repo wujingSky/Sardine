@@ -4,6 +4,7 @@ const FormItem = Form.Item;
 
 const SearchForm = ({
   onSearch,
+  onAdd,
   form: {
     getFieldDecorator,
     validateFields,
@@ -61,6 +62,7 @@ const SearchForm = ({
           </Col>
         </Row>
       </Form>
+      <Button type="ghost" onClick={onAdd}>添加</Button>
     </Card>
     );
 };
@@ -68,6 +70,7 @@ const SearchForm = ({
 SearchForm.propTypes = {
   form: PropTypes.object.isRequired,
   onSearch: PropTypes.func,
+  onAdd: PropTypes.func,
 };
 
 export default Form.create()(SearchForm);

@@ -40,7 +40,7 @@ export default class Header extends React.Component {
           <Link>WMS</Link>
         </Menu.Item>
         <Menu.Item >
-         <span><Icon type="user" />登录</span>
+         <span><Icon type="user" /> <Link to="/login">登录</Link></span>
         </Menu.Item>
       </Menu>,
     ];

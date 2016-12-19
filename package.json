@@ -39,7 +39,7 @@
     "mockjs": "^1.0.1-beta2",
     "redbox-react": "^1.2.10",
     "rc-queue-anim": "~0.12.6",
-    "rc-scroll-anim": "~0.5.3",
+    "rc-scroll-anim": "~0.6.0",
     "rc-tween-one": "~0.11.10",
     "rc-banner-anim": "~0.5.4"
   },

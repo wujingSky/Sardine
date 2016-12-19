@@ -5,6 +5,11 @@ export async function query(params) {
   return request(`/api/users?${qs.stringify(params)}`);
 }
 
+export async function login(params) {
+  console.log('service ');
+  return request(`/api/login?${qs.stringify(params)}`);
+}
+
 export async function create(params) {
   return request('/api/users', {
     method: 'post',

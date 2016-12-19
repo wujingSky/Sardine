@@ -24,6 +24,19 @@ if (!global.tableListData) {
   tableListData = global.tableListData;
 }
 
+function pretendRequest(email, pass, cb) {
+  setTimeout(() => {
+    if (email === 'joe@example.com' && pass === 'password1') {
+      cb({
+        authenticated: true,
+        token: Math.random().toString(36).substring(7)
+      })
+    } else {
+      cb({ authenticated: false })
+    }
+  }, 0)
+};
+
 module.exports = {
 
   'GET /api/users' (req, res) {
@@ -65,6 +78,14 @@ module.exports = {
       });
     }, 500);
   },
+
+  'GET /api/login' (req, res) {
+    console.log('收到了吗？ '/*+ console.dir(req)*/);
+
+    const loginData = qs.parse(req.query);
+    console.log(loginData.username);
+  },
+
 
   'POST /api/users' (req, res) {
     setTimeout(function () {
