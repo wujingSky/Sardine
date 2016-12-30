@@ -1,18 +1,20 @@
-'use strict';
+'use strict'
 
-const mock = {};
+const mock = {}
 
 require('fs').readdirSync(require('path').join(__dirname + '/mock'))
   .forEach(function (file) {
-    Object.assign(mock, require('./mock/' + file));
-  });
+    Object.assign(mock, require('./mock/' + file))
+  })
 
-module.exports = mock;
+module.exports = mock
 
-/*module.exports = {
-	mock,
-  //  'GET /api/*': 'http://192.168.1.21:8080/sardine-wms-web/',
-  //  'GET /authen/*': 'http://192.168.1.21:8080/sardine-wms-web/',
+/*
+module.exports = {
+	
+	// mock,
+    'GET /api/ia/(.*)': 'http://192.168.1.21:8080/sardine-wms-web/ia',
 
-};*/
+};
+*/
 

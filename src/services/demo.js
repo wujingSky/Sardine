@@ -7,7 +7,15 @@ export async function query(params) {
 
 export async function login(params) {
   console.log('service ');
-  return request(`/api/login?${qs.stringify(params)}`);
+  return request(`/api/ia/authen/login?${qs.stringify(params)}`);
+}
+
+export async function register(params) {
+  console.log('注册用户 ');
+  return request('/api/register', {
+    method: 'post',
+    body: qs.stringify(params),
+  });
 }
 
 export async function create(params) {

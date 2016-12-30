@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Form, Row, Col, Input, Button, Icon, Table, message, Modal,Card,Select,InputNumber} from 'antd';
 const FormItem = Form.Item;
 
-const ViewForm = ({
+const DemoViewForm = ({
   item = {},
   onEdit,
   onDelete,
@@ -109,7 +109,7 @@ const ViewForm = ({
     );
 };
 
-ViewForm.propTypes = {
+DemoViewForm.propTypes = {
   form: PropTypes.object,
   item: PropTypes.object,
   onEdit: PropTypes.func,
@@ -118,4 +118,4 @@ ViewForm.propTypes = {
   onBack: PropTypes.func,
 };
 
-export default ViewForm;
+export default DemoViewForm;

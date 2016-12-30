@@ -79,13 +79,13 @@ module.exports = {
     }, 500);
   },
 
-  'GET /api/login' (req, res) {
-    console.log('收到了吗？ '/*+ console.dir(req)*/);
+  'POST /api/register' (req, res) {
+   
+      console.log('注册……');
+      const newData = qs.parse(req.body);
 
-    const loginData = qs.parse(req.query);
-    console.log(loginData.username);
+      console.dir(newData);
   },
-
 
   'POST /api/users' (req, res) {
     setTimeout(function () {

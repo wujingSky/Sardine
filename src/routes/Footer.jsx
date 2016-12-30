@@ -1,12 +1,9 @@
 import React from 'react';
 import TweenOne from 'rc-tween-one';
 import OverPack from 'rc-scroll-anim/lib/ScrollOverPack';
+import config from '../utils/config';
 
 class Footer extends React.Component {
-  static propTypes = {
-    dataSource: React.PropTypes.object,
-  };
-
   static defaultProps = {
     className: 'footer0',
   };
@@ -21,10 +18,7 @@ class Footer extends React.Component {
         animation={{ y: '+=30', opacity: 0, type: 'from' }}
         key="footer"
       >
-        <span
-        >
-          Copyright © 2016 The Project By LHWMS Team. All Rights Reserved
-        </span>
+        <span> {config.footerText} </span>
       </TweenOne>
     </OverPack>);
   }

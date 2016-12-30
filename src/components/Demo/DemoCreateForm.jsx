@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Form, Row, Col, Input, Button, Icon, Table, message, Popconfirm,Card,Select,InputNumber} from 'antd';
 const FormItem = Form.Item;
 
-const CreateForm = ({
+const DemoCreateForm = ({
   item = {},
   onOk,
   onCancel,
@@ -40,8 +40,10 @@ const CreateForm = ({
 
     return (
      <div>
+     <div className="ant-table-title">
      <Button onClick={handleOk}> 保存</Button>
      <Button style={{ marginLeft: 8 }} onClick={() => onCancel()}> 取消</Button>
+     </div>
      <Card title="基本信息">
       <Row gutter={16}>
        <Col span={12}>
@@ -83,11 +85,11 @@ const CreateForm = ({
     );
 };
 
-CreateForm.propTypes = {
+DemoCreateForm.propTypes = {
   form: PropTypes.object,
   item: PropTypes.object,
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
 };
 
-export default Form.create()(CreateForm);
+export default Form.create()(DemoCreateForm);

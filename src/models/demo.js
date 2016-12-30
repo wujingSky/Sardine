@@ -1,145 +1,82 @@
-import { create, remove, update, query,login } from '../services/demo';
+import { query, } from '../services/demo';
+
 import { parse } from 'qs';
 
 export default {
-  namespace: 'users',
+	namespace : 'demo',
 
-  state: {
-    list: [],
-    field: '',
-    keyword: '',
-    loading: false,
-    total: null,
-    current: 1,
-    currentItem: {},
-    modalVisible: false,
-    modalType: 'create',
+	state:{
+		list:[],
+		loading : false,
+		currentItem : {},
+		showCreate : false,
+		showEdit : false,
+		showView : false,
+		pagination:{
+			showSizeChanger: true,
+			showQuickJumper: true,
+			showTotal: total => `共 ${total} 条`,
+			current:1,
+			total:null,
+			size:'default'
+		}
+	},
+
+	subscriptions: {
+		setup({ dispatch, history }) {
+			history.listen(location => {
+				if (location.pathname === '/demo') {
+					dispatch({
+						type: 'query',
+						payload: location.query,
+					})
+				}
+			})
+		},
+	},
+
+	effects : {
+		*query({payload},{call,put}){
+			yield put({type: 'showLoading'});
+			const {data} = yield call(query,parse(payload));
+		    if (data) {
+		    	yield put({
+		    		type: 'querySuccess',
+		    		payload: {
+		    			list: data.data,
+		    			pagination:{
+		    				total: data.page.total,
+		    				current: data.page.current,
+		    			}
+		    		},
+		    	})
+		    }	
+		},
+	},
+
+	reducers: {
+		showLoading(state) {
+			return { ...state, loading: true }
+		},
+
+		querySuccess(state, action) {
+			return { ...state, ...action.payload, loading: false }
+		},
+
+		showCreatePage(state){
+			return { ...state, showCreate : true,showView : false};
+		},
+
+		showViewPage(state, action){
+			return { ...state, ...action.payload, showCreate : false, showView : true,}
+		},
+
+		showEditPage(state, action){
+			return { ...state, ...action.payload, showCreate : true, showView : false,}
+		},
+
+		backSearch(state){
+			return {...state,showCreate : false,showView : false,}
+		},
   },
-
-  subscriptions: {
-    setup({ dispatch, history }) {
-      history.listen(location => {
-        if (location.pathname === '/users') {
-          dispatch({
-            type: 'query',
-            payload: location.query,
-          });
-        }
-
-       if (location.pathname === '/') {
-          dispatch({
-            type: 'query',
-            payload: location.query,
-          });
-        }
-      });
-    },
-  },
-
-  effects: {
-    *query({ payload }, { call, put }) {
-      yield put({ type: 'showLoading' });
-      yield put({
-        type: 'updateQueryKey',
-        payload: { page: 1, field: '', keyword: '', ...payload },
-      });
-      const { data } = yield call(query, parse(payload));
-      if (data) {
-        yield put({
-          type: 'querySuccess',
-          payload: {
-            list: data.data,
-            total: data.page.total,
-            current: data.page.current,
-          },
-        });
-      }
-    },
-    *'delete'({ payload }, { call, put }) {
-      yield put({ type: 'showLoading' });
-      const { data } = yield call(remove, { id: payload });
-      if (data && data.success) {
-        yield put({
-          type: 'deleteSuccess',
-          payload,
-        });
-      } 
-    },
-    *create({ payload }, { call, put }) {
-      yield put({ type: 'hideModal' });
-      yield put({ type: 'showLoading' });
-      const { data } = yield call(create, payload);
-      if (data && data.success) {
-        yield put({
-          type: 'createSuccess',
-          payload: {
-            list: data.data,
-            total: data.page.total,
-            current: data.page.current,
-            field: '',
-            keyword: '',
-          },
-        });
-      }
-    },
-
-    *login({ payload }, { call, put }) {
-      console.log('effects……');
-      yield call(login, parse(payload));
-      console.log('check……');
-    },
-
-
-    *update({ payload }, { select, call, put }) {
-      yield put({ type: 'hideModal' });
-      yield put({ type: 'showLoading' });
-      const id = yield select(({ users }) => users.currentItem.id);
-      const newUser = { ...payload, id };
-      const { data } = yield call(update, newUser);
-      if (data && data.success) {
-        yield put({
-          type: 'updateSuccess',
-          payload: newUser,
-        });
-      } 
-    },
-  },
-
-  reducers: {
-    showLoading(state) {
-      return { ...state, loading: true };
-    },
-
-    createSuccess(state, action) {
-      return { ...state, ...action.payload, loading: false };
-    },
-    deleteSuccess(state, action) {
-      const id = action.payload;
-      const newList = state.list.filter(user => user.id !== id);
-      return { ...state, list: newList, loading: false };
-    },
-    updateSuccess(state, action) {
-      const updateUser = action.payload;
-      const newList = state.list.map(user => {
-        if (user.id === updateUser.id) {
-          return { ...user, ...updateUser };
-        }
-        return user;
-      });
-      return { ...state, list: newList, loading: false };
-    },
-    querySuccess(state, action) {
-      return { ...state, ...action.payload, loading: false };
-    },
-    showModal(state, action) {
-      return { ...state, ...action.payload, modalVisible: true };
-    },
-    hideModal(state) {
-      return { ...state, modalVisible: false };
-    },
-    updateQueryKey(state, action) {
-      return { ...state, ...action.payload };
-    },
-  },
-
-};
+}

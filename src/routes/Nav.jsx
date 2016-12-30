@@ -5,32 +5,9 @@ import { Link } from 'react-router';
 import {Icon} from 'antd';
 
 const Item = Menu.Item;
-import auth from './LoginAuth';
-
 class Nav extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedIn: false,
-    };
-    this.updateAuth = this.updateAuth.bind(this);
-  }
-
-  updateAuth(loggedIn) {
-    this.setState({
-      loggedIn
-    })
-  }
-
-  componentWillMount() {
-    auth.onChange = this.updateAuth
-    auth.login()
-  }
 
   render() {
-    const navData = { menu1: '首页', menu2: 'Demo', menu3: 'WMS', menu4: '登录' };
-    const navChildren = Object.keys(navData)
-      .map((key, i) => (<Item key={i}>{navData[key]}</Item>));
     return (<TweenOne
       component="header"
       animation={{ opacity: 0, type: 'from' }}
@@ -60,15 +37,6 @@ class Nav extends React.Component {
         </Menu.Item>
         <Menu.Item key="WMS">
           <Link>WMS</Link>
-        </Menu.Item>
-        <Menu.Item >
-         <span><Icon type="user" /> 
-          {this.state.loggedIn ? (
-              <Link to="/loginOut">退出</Link>
-            ) : (
-              <Link to="/login"> 登录 </Link>
-            )}
-          </span>
         </Menu.Item>
         </Menu>
       </TweenOne>
